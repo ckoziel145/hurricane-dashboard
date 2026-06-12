@@ -2,6 +2,8 @@
 
 A live Atlantic hurricane dashboard built as a portfolio monitor for XKIG (emergency storm response, southeastern US). Four tabs: a live 2026 outlook, season trends (2020–present), a drill-down landfall log, and forecast-vs-actual analysis.
 
+**Deployed at: https://ckoziel145.github.io/hurricane-dashboard/** (GitHub Pages, password-gated — see Access control below). Repo: https://github.com/ckoziel145/hurricane-dashboard
+
 ## How the data stays current
 
 The dashboard runs on three layers:
@@ -16,7 +18,10 @@ The proxy exists because nhc.noaa.gov does not send CORS headers, so browsers ca
 
 ## Deploy (≈5 minutes)
 
-### Vercel (recommended)
+### GitHub Pages (current deployment)
+`.github/workflows/deploy.yml` builds and deploys on every push to `main`, and also on a 6-hour schedule. GitHub Pages has no serverless functions, so the `/api/nhc` proxy doesn't run there; instead the deploy workflow fetches static copies of the two NHC feeds into `public/data/` (`nhc-current.json`, `nhc-outlook.xml`) at build time, and the UI falls back to those (shown as "CACHED COPY" with the fetch time). Net effect: live data is at most ~6 hours old. The season-log automation below works unchanged.
+
+### Vercel (recommended for true page-load-live data)
 1. Push this folder to a GitHub repository.
 2. In Vercel: **Add New → Project → Import** the repo. Framework preset: **Vite**. Deploy.
 3. The `api/nhc.js` serverless function is detected automatically — no configuration needed.
@@ -50,7 +55,9 @@ The fastest workflow: paste `src/data.js` into Claude and ask it to research and
 
 ## Access control
 
-Published this way, the site is public at its URL (the page sets `noindex`, so it won't be indexed by search engines). To restrict access: Vercel **Deployment Protection** (password / SSO) or Netlify **password protection** — both are plan-dependent features of those platforms. The simplest free option is an unlisted URL plus noindex, which is already in place.
+The site is wrapped in a password gate (`src/Gate.jsx`): the dashboard only renders after the access password is entered (checked as a SHA-256 hash; remembered for the browser session). To change the password, hash the new one (`node -e "console.log(require('crypto').createHash('sha256').update('NEWPASS').digest('hex'))"`) and replace `PASS_HASH` in `src/Gate.jsx`.
+
+Note the honest limits: this is a client-side gate on a static site — it keeps out casual visitors, but the underlying data ships in the public JS bundle, and the repo itself is public (GitHub Pages on a free plan requires that). The page also sets `noindex`. For hard server-side protection, deploy to Vercel/Netlify and use their plan-dependent **Deployment Protection** / **password protection** features.
 
 ## Data sources & disclaimers
 
