@@ -1,0 +1,25 @@
+name: Refresh season log
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC daily
+    - cron: "0 18 * * *"  # 18:00 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/refresh-season.mjs
+      - name: Commit changes (if any)
+        run: |
+          git config user.name "season-log-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/data/season-log.json
+          git diff --cached --quiet || (git commit -m "chore: refresh season log" && git push)

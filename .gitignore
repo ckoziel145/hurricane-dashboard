@@ -1,0 +1,9 @@
+node_modules/
+dist/
+# build-time NHC feed copies written by scripts/fetch-live.mjs in CI
+public/data/nhc-current.json
+public/data/nhc-outlook.xml
+public/data/nhc-meta.json
+.vercel/
+.netlify/
+.DS_Store
