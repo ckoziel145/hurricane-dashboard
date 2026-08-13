@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-08-12T18:54:28.542Z",
+  "updated": "2026-08-13T07:25:39.106Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
@@ -23,7 +23,7 @@
       "id": "al032026",
       "name": "Cristobal",
       "firstSeen": "2026-08-12",
-      "lastSeen": "2026-08-12",
+      "lastSeen": "2026-08-13",
       "peakClassification": "TS",
       "peakIntensityKt": 40
     }
