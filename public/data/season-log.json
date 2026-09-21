@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-09-20T20:09:52.782Z",
+  "updated": "2026-09-21T12:07:09.175Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
@@ -47,9 +47,9 @@
       "id": "al062026",
       "name": "Six",
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
       "peakClassification": "TS",
-      "peakIntensityKt": 50
+      "peakIntensityKt": 55
     }
   ]
 }
