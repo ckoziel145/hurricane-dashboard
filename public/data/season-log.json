@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-09-29T21:45:50.010Z",
+  "updated": "2026-09-30T11:59:30.754Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
@@ -63,7 +63,7 @@
       "id": "al082026",
       "name": "Hanna",
       "firstSeen": "2026-09-28",
-      "lastSeen": "2026-09-29",
+      "lastSeen": "2026-09-30",
       "peakClassification": "TS",
       "peakIntensityKt": 40
     }
