@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-10-08T22:45:04.969Z",
+  "updated": "2026-10-09T12:39:23.873Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
@@ -71,9 +71,9 @@
       "id": "al092026",
       "name": "Nine",
       "firstSeen": "2026-10-06",
-      "lastSeen": "2026-10-08",
+      "lastSeen": "2026-10-09",
       "peakClassification": "HU",
-      "peakIntensityKt": 85
+      "peakIntensityKt": 105
     }
   ]
 }
