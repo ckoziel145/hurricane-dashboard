@@ -2,7 +2,7 @@
    Curated layers (storm log, forecasts, revisions) are as of the snapshot date below;
    update them here, or paste this file to Claude and ask for a refresh. */
 
-export const SNAPSHOT_DATE = "Jun 12, 2026";
+export const SNAPSHOT_DATE = "Oct 13, 2026";
 
 export const T = {
   bg: "#0A1118",
@@ -40,9 +40,12 @@ export const SEASONS = [
 export const SEASON_2026 = {
   year: 2026,
   noaa: { nsLo: 8, nsHi: 14, hLo: 3, hHi: 6, mhLo: 1, mhHi: 3, belowNormal: 55, nearNormal: 35, aboveNormal: 10 },
+  noaaAug: { nsLo: 7, nsHi: 13, hLo: 2, hHi: 6, mhLo: 0, mhHi: 2, belowNormal: 75, nearNormal: 20, aboveNormal: 5 },
   csuJune: { ns: 11, h: 5, mh: 2 },
+  csuJuly: { ns: 9, h: 4, mh: 1 },
+  csuAug: { ns: 9, h: 4, mh: 1 },
   csuApril: { ns: 13, h: 6, mh: 2, ace: 90 },
-  nsToDate: 0,
+  nsToDate: 9,
 };
 
 /* ---------------- STORM-LEVEL LOG (US landfall / impact events, 2020–2025) ----------------
@@ -90,6 +93,11 @@ export const STORMS = [
   // 2025
   { id: "chantal25", name: "Chantal", year: 2025, cat: 0, landfall: true, lfDate: "Jul 6, 2025", lfLoc: "Litchfield Beach, SC", active: "Jul 4–7", peak: "TS, 60 mph", states: ["SC", "NC"], damageB: 1.5, deaths: 6, notes: "Only US landfall of 2025. Drove severe flash flooding across central North Carolina (Chapel Hill / Durham area)." },
   { id: "erin25", name: "Erin", year: 2025, cat: 5, landfall: false, lfDate: "— (no US landfall)", lfLoc: "Offshore — closest approach to Outer Banks, NC", active: "Aug 11–23", peak: "Cat 5, 160 mph", states: ["NC"], damageB: 0.5, deaths: 0, notes: "First Cat 5 of 2025; one of the fastest rapid-intensification events on record (75→160 mph in 24 hrs). Storm surge, ocean overwash and erosion on the NC Outer Banks; dangerous surf along the entire East Coast." },
+  // 2026
+  { id: "arthur26", name: "Arthur", year: 2026, cat: 0, landfall: true, lfDate: "Jun 17, 2026", lfLoc: "Near Galveston, TX", active: "Jun 17–18", peak: "TS, 45 mph", states: ["TX", "LA"], damageB: 1.0, deaths: 4, notes: "First storm of 2026. Minimal wind at landfall, but the storm and its remnants drove severe flash flooding along the upper Texas coast and into Louisiana; damage estimated above $1B." },
+  { id: "bertha26", name: "Bertha", year: 2026, cat: 0, landfall: true, lfDate: "Jul 22, 2026", lfLoc: "St. Bernard Parish, LA", active: "Jul 19–24", peak: "TS, 60 mph (45 mph at landfall)", states: ["LA", "TX"], damageB: 0.05, deaths: 0, notes: "Meandering Gulf storm; landfall in southeast Louisiana, then re-emerged and moved inland again near the TX–LA border. Damage in the tens of millions." },
+  { id: "edouard26", name: "Edouard", year: 2026, cat: 0, landfall: true, lfDate: "Sep 1, 2026", lfLoc: "Johnson Bayou, LA", active: "Aug 31–Sep 3", peak: "TS, 60 mph", states: ["LA", "TX"], damageB: 0.05, deaths: 0, notes: "Landfall in southwest Louisiana at peak intensity; heavy rain and coastal flooding, damage in the tens of millions." },
+  { id: "isaias26", name: "Isaias", year: 2026, cat: 2, landfall: true, lfDate: "Oct 9, 2026", lfLoc: "Near Destin, FL", active: "Oct 6–10", peak: "Cat 2 at landfall, 105 mph (Cat 3 peak, 120 mph)", states: ["FL", "AL", "GA", "SC"], damageB: 4.0, deaths: 5, notes: "The season's only hurricane — and the latest first hurricane on record (tied 1905). Severe wind damage in Santa Rosa and Escambia counties; 800K+ outages across FL/AL/GA. Damage preliminary: insured-loss estimates run $1–3B." },
 ];
 
 /* ---------------- FORECAST VS ACTUAL ---------------- */
@@ -100,7 +108,7 @@ export const FORECASTS = [
   { year: 2023, csuApr: { ns: 13, h: 6, mh: 2 }, noaa: { lo: 12, hi: 17, hLo: 5, hHi: 9, mhLo: 1, mhHi: 4 }, actual: { ns: 20, h: 7, mh: 3 } },
   { year: 2024, csuApr: { ns: 23, h: 11, mh: 5 }, noaa: { lo: 17, hi: 25, hLo: 8, hHi: 13, mhLo: 4, mhHi: 7 }, actual: { ns: 18, h: 11, mh: 5 } },
   { year: 2025, csuApr: { ns: 17, h: 9, mh: 4 }, noaa: { lo: 13, hi: 19, hLo: 6, hHi: 10, mhLo: 3, mhHi: 5 }, actual: { ns: 13, h: 5, mh: 4 } },
-  { year: 2026, csuApr: { ns: 13, h: 6, mh: 2 }, csuJun: { ns: 11, h: 5, mh: 2 }, noaa: { lo: 8, hi: 14, hLo: 3, hHi: 6, mhLo: 1, mhHi: 3 }, actual: null },
+  { year: 2026, csuApr: { ns: 13, h: 6, mh: 2 }, csuJun: { ns: 11, h: 5, mh: 2 }, csuJul: { ns: 9, h: 4, mh: 1 }, noaa: { lo: 8, hi: 14, hLo: 3, hHi: 6, mhLo: 1, mhHi: 3 }, noaaAug: { lo: 7, hi: 13, hLo: 2, hHi: 6, mhLo: 0, mhHi: 2 }, actual: null },
 ];
 
 export const REVISIONS_2026 = [
@@ -108,18 +116,21 @@ export const REVISIONS_2026 = [
   { date: "May 2026", source: "NOAA — seasonal outlook", detail: "8–14 named / 3–6 hurricanes / 1–3 major (70% confidence). 55% chance of a below-normal season, 35% near-normal, 10% above-normal.", dir: "init" },
   { date: "Early Jun 2026", source: "NWS / WMO — El Niño signal strengthens", detail: "NWS: 82% chance El Niño takes hold by July (up from 61%). WMO (Jun 2): ~80% chance of a strong El Niño this summer.", dir: "context" },
   { date: "Jun 10, 2026", source: "CSU — June update (REVISED DOWN)", detail: "Cut to 11 named / 5 hurricanes / 2 major. US-coastline major-hurricane landfall probability: 24% vs 43% historical average. Warm Atlantic SSTs noted, but El Niño shear expected to dominate.", dir: "down" },
-  { date: "Upcoming", source: "Scheduled updates", detail: "CSU updates: Jul 8 and Aug 5. NOAA mid-season update: early August.", dir: "next" },
+  { date: "Jul 8, 2026", source: "CSU — July update (REVISED DOWN)", detail: "Cut again to 9 named / 4 hurricanes / 1 major — the third straight reduction. US major-hurricane landfall probability lowered to 17% (vs 43% average). Klotzbach's analog years: 1965, 1982, 1987, 1997, 2009, 2015 — all below-average seasons.", dir: "down" },
+  { date: "Aug 5, 2026", source: "CSU — final August update (HELD)", detail: "Held at 9 named / 4 hurricanes / 1 major. CSU 'extremely confident' in a strong El Niño through the season peak, driving very high tropical Atlantic wind shear. Post-Aug 4 US major-landfall odds: 16% vs 43% average.", dir: "hold" },
+  { date: "Aug 6, 2026", source: "NOAA — mid-season update (REVISED DOWN)", detail: "Narrowed to 7–13 named / 2–6 hurricanes / 0–2 major. Below-normal season odds raised from 55% to 75%; under 5% chance of above-normal. Only Arthur and Bertha had formed by the update.", dir: "down" },
+  { date: "Oct 8, 2026", source: "Season verification — latest first hurricane", detail: "Isaias became the season's first hurricane on Oct 8, tying 1905 for the latest first hurricane on record, then hit the Florida Panhandle as a Cat 2. Season to date: 9 named / 1 hurricane / 1 major — in line with the revised outlooks.", dir: "context" },
 ];
 
 /* ---------------- 2026 OUTLOOK / LIVE ---------------- */
 export const SNAPSHOT_SYSTEMS = [
   {
-    id: "bocDisturbance",
-    title: "Gulf disturbance — Bay of Campeche",
-    status: "MONITORING",
-    nextName: "Arthur",
-    detail: "NHC's first area of interest of the 2026 season. A broad area of low pressure may form over the Bay of Campeche late this week, bringing showers and thunderstorms to the southern Gulf. If it organizes, it would become Tropical Storm Arthur. No coastal watches or warnings are in effect.",
-    threat: "Formation chance and any US (Gulf Coast) threat are still uncertain — too early for a track. Watch NHC's Tropical Weather Outlook for 2- and 7-day formation odds.",
+    id: "postIsaias",
+    title: "All quiet — Isaias dissipated Oct 12",
+    status: "NO ACTIVE SYSTEMS",
+    nextName: "Josephine",
+    detail: "Hurricane Isaias — the season's first and only hurricane, and the latest first hurricane on record (tied 1905) — struck the Florida Panhandle near Destin as a Cat 2 on Oct 9, weakened over Alabama, and dissipated Oct 12. No active systems or areas of interest in the Atlantic as of this snapshot. The next name on the list is Josephine.",
+    threat: "El Niño shear continues to suppress the basin, but late-season storms (Oct–Nov) historically favor the western Caribbean and Gulf — watch NHC's Tropical Weather Outlook for new areas of interest.",
   },
 ];
 

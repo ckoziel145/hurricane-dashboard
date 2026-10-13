@@ -11,7 +11,7 @@ export default function TrendsTab() {
   const activityData = useMemo(() => [
     ...SEASONS.map((s) => ({ year: String(s.year), "Named storms": s.ns, Hurricanes: s.h, Major: s.mh, ace: s.ace })),
     ...(stats ? [{ year: "2026", "Named storms": stats.totals.ns, Hurricanes: stats.totals.h, Major: stats.totals.mh, ace: stats.totals.ace }] : []),
-    { year: "2026F", "Named storms": SEASON_2026.csuJune.ns, Hurricanes: SEASON_2026.csuJune.h, Major: SEASON_2026.csuJune.mh, forecast: true },
+    { year: "2026F", "Named storms": SEASON_2026.csuAug.ns, Hurricanes: SEASON_2026.csuAug.h, Major: SEASON_2026.csuAug.mh, forecast: true },
   ], [stats]);
 
   const landfallByCat = useMemo(() => SEASONS.map((s) => {
@@ -126,7 +126,7 @@ export default function TrendsTab() {
             </BarChart>
           </ResponsiveContainer>
           <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 6 }}>
-            Counts storms listing the state among impacted areas. 2026 YTD reflects the curated storm log (zero US impact events as of {SNAPSHOT_DATE}). Erin ’25 counted as a no-landfall coastal-impact event (NC).
+            Counts storms listing the state among impacted areas. 2026 YTD reflects the curated storm log as of {SNAPSHOT_DATE} (Arthur, Bertha, Edouard, Isaias). Erin ’25 counted as a no-landfall coastal-impact event (NC).
           </div>
         </Panel>
       </div>

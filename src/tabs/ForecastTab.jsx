@@ -58,7 +58,7 @@ export default function ForecastTab() {
                   return (
                     <tr key={f.year} style={{ borderTop: `1px solid ${T.line}`, color: T.text }}>
                       <td style={{ padding: "8px", color: T.amber }}>{f.year}</td>
-                      <td style={{ padding: "8px", color: T.muted }}>{f.csuApr.ns}/{f.csuApr.h}/{f.csuApr.mh}{f.csuJun ? <span style={{ color: T.amber }}> → {f.csuJun.ns}/{f.csuJun.h}/{f.csuJun.mh}</span> : ""}</td>
+                      <td style={{ padding: "8px", color: T.muted }}>{f.csuApr.ns}/{f.csuApr.h}/{f.csuApr.mh}{f.csuJun ? <span style={{ color: T.amber }}> → {f.csuJun.ns}/{f.csuJun.h}/{f.csuJun.mh}</span> : ""}{f.csuJul ? <span style={{ color: T.amber }}> → {f.csuJul.ns}/{f.csuJul.h}/{f.csuJul.mh}</span> : ""}</td>
                       <td style={{ padding: "8px", color: T.muted }}>{f.noaa.lo}–{f.noaa.hi}</td>
                       <td style={{ padding: "8px" }}>{a ? `${a.ns}/${a.h}/${a.mh}${inProgress ? " to date" : ""}` : "in progress"}</td>
                       <td style={{ padding: "8px", color: inProgress ? T.faint : lf >= 3 ? CAT[4].color : T.text }}>{inProgress ? `${lf} to date` : lf}</td>
