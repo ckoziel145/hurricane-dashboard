@@ -6,4 +6,5 @@ public/data/nhc-outlook.xml
 public/data/nhc-meta.json
 .vercel/
 .netlify/
+.claude/
 .DS_Store

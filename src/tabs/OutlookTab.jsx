@@ -1,7 +1,7 @@
 import React from "react";
 import { T, CAT, SEASON_2026, SNAPSHOT_SYSTEMS, NAMES_2026, SOURCES, SNAPSHOT_DATE } from "../data.js";
 import { mono, sans, Panel, Stat } from "../components.jsx";
-import { useLiveData, ktToMph, CLASS_LABEL, countNamed } from "../useLive.js";
+import { useLiveData, useSeasonStats, ktToMph, CLASS_LABEL, countNamed } from "../useLive.js";
 
 const classColor = (c) =>
   c === "MH" ? CAT[4].color : c === "HU" ? CAT[2].color :
@@ -37,8 +37,9 @@ function LiveStormCard({ s }) {
 
 export default function OutlookTab() {
   const live = useLiveData();
+  const stats = useSeasonStats();
   const feedUp = live.status === "ok" || live.status === "cached";
-  const namedToDate = countNamed(live.seasonLog);
+  const namedToDate = stats?.totals?.ns ?? countNamed(live.seasonLog);
   const named = namedToDate != null ? namedToDate : SEASON_2026.nsToDate;
   const nextName = NAMES_2026[Math.min(named, NAMES_2026.length - 1)];
 
@@ -60,7 +61,7 @@ export default function OutlookTab() {
       </div>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <Stat label="Named storms to date" value={named} sub={`Next name up: ${nextName}${namedToDate == null ? " · from curated snapshot" : " · from auto-updated season log"}`} />
+        <Stat label="Named storms to date" value={named} sub={`Next name up: ${nextName}${namedToDate == null ? " · from curated snapshot" : stats ? " · auto-tracked from NHC best track" : " · from auto-updated season log"}`} />
         <Stat label="Active Atlantic systems" value={feedUp ? live.storms.length : "—"} accent={T.amber} sub={feedUp ? "From NHC CurrentStorms feed, fetched on page load" : "Feed unreachable — see snapshot below"} />
         <Stat label="Season character" value="55%" sub="NOAA's probability of a below-normal season (El Niño-driven)" />
         <Stat label="US major landfall odds" value="24%" accent={CAT[3].color} sub="CSU's 2026 probability for the full US coastline, vs 43% historical avg" />

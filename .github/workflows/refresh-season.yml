@@ -17,9 +17,10 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/refresh-season.mjs
+      - run: node scripts/build-season-stats.mjs
       - name: Commit changes (if any)
         run: |
           git config user.name "season-log-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add public/data/season-log.json
-          git diff --cached --quiet || (git commit -m "chore: refresh season log" && git push)
+          git add public/data/season-log.json public/data/season-stats.json
+          git diff --cached --quiet || (git commit -m "chore: refresh season log & stats" && git push)

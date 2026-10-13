@@ -2,14 +2,18 @@ import React, { useState, useMemo } from "react";
 import { ComposedChart, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList, ReferenceLine } from "recharts";
 import { T, CAT, catOf, SEASONS, SEASON_2026, STORMS, FORECASTS, REVISIONS_2026, SE_STATES, SNAPSHOT_DATE } from "../data.js";
 import { mono, sans, fmtB, Panel, Stat, CatBadge, ChartTip, axisProps } from "../components.jsx";
+import { useSeasonStats } from "../useLive.js";
 
 /* ============== TAB 3 — FORECAST VS ACTUAL ============== */
 export default function ForecastTab() {
+  const stats = useSeasonStats();
+  // 2026 actuals come live from the auto-tracked season stats while the season runs
+  const actualOf = (f) => f.actual || (f.year === 2026 && stats ? stats.totals : null);
   const nsData = FORECASTS.map((f) => ({
     year: String(f.year),
     "CSU (April)": f.csuApr.ns,
     "NOAA (midpoint)": Math.round((f.noaa.lo + f.noaa.hi) / 2 * 10) / 10,
-    Actual: f.actual ? f.actual.ns : null,
+    Actual: actualOf(f) ? actualOf(f).ns : null,
   }));
 
   return (
@@ -29,7 +33,9 @@ export default function ForecastTab() {
               <Bar dataKey="Actual" fill={T.amber} radius={[2, 2, 0, 0]} />
             </ComposedChart>
           </ResponsiveContainer>
-          <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 6 }}>2026 actual = TBD (none as of the curated snapshot, {SNAPSHOT_DATE}). Misses run both ways: 2020 under-called by ~14; 2022 & 2025 over-called.</div>
+          <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 6 }}>
+            {stats ? "2026 actual = season to date, auto-tracked from NHC best track — final totals land after Nov 30. " : `2026 actual = TBD (none as of the curated snapshot, ${SNAPSHOT_DATE}). `}Misses run both ways: 2020 under-called by ~14; 2022 & 2025 over-called.
+          </div>
         </Panel>
 
         <Panel kicker="FULL SCOREBOARD" title="Forecast vs actual — all metrics">
@@ -47,13 +53,15 @@ export default function ForecastTab() {
               <tbody>
                 {FORECASTS.map((f) => {
                   const lf = STORMS.filter((s) => s.year === f.year && s.landfall && s.cat >= 1).length;
+                  const a = actualOf(f);
+                  const inProgress = f.year === 2026;
                   return (
                     <tr key={f.year} style={{ borderTop: `1px solid ${T.line}`, color: T.text }}>
                       <td style={{ padding: "8px", color: T.amber }}>{f.year}</td>
                       <td style={{ padding: "8px", color: T.muted }}>{f.csuApr.ns}/{f.csuApr.h}/{f.csuApr.mh}{f.csuJun ? <span style={{ color: T.amber }}> → {f.csuJun.ns}/{f.csuJun.h}/{f.csuJun.mh}</span> : ""}</td>
                       <td style={{ padding: "8px", color: T.muted }}>{f.noaa.lo}–{f.noaa.hi}</td>
-                      <td style={{ padding: "8px" }}>{f.actual ? `${f.actual.ns}/${f.actual.h}/${f.actual.mh}` : "in progress"}</td>
-                      <td style={{ padding: "8px", color: f.year === 2026 ? T.faint : lf >= 3 ? CAT[4].color : T.text }}>{f.year === 2026 ? "0 to date" : lf}</td>
+                      <td style={{ padding: "8px" }}>{a ? `${a.ns}/${a.h}/${a.mh}${inProgress ? " to date" : ""}` : "in progress"}</td>
+                      <td style={{ padding: "8px", color: inProgress ? T.faint : lf >= 3 ? CAT[4].color : T.text }}>{inProgress ? `${lf} to date` : lf}</td>
                     </tr>
                   );
                 })}

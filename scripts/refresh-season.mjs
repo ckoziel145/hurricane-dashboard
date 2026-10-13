@@ -35,6 +35,8 @@ for (const s of atlantic) {
     console.log(`New system logged: ${s.name} (${s.id})`);
   } else {
     existing.lastSeen = today;
+    // NHC renames systems when they strengthen (e.g. "Nine" → "Isaias")
+    if (s.name && existing.name !== s.name) existing.name = s.name;
     if ((RANK[s.classification] ?? 0) > (RANK[existing.peakClassification] ?? 0)) {
       existing.peakClassification = s.classification;
     }

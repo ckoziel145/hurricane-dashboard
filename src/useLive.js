@@ -23,6 +23,31 @@ const NAMED = ["TS", "STS", "HU", "MH"];
 export const countNamed = (log) =>
   log?.storms ? log.storms.filter((s) => NAMED.includes(s.peakClassification)).length : null;
 
+/* Season-to-date aggregates (data/season-stats.json), built from NHC's ATCF
+   best-track files by scripts/build-season-stats.mjs — committed twice daily by
+   the season-log workflow and rebuilt fresh on every deploy. Fetched once per
+   page load and shared across tabs via a module-level cache.
+   Returns: undefined → still loading, null → unavailable, object → stats. */
+let statsCache;
+let statsPromise = null;
+export function useSeasonStats() {
+  const [stats, setStats] = useState(statsCache);
+  useEffect(() => {
+    if (statsCache !== undefined) return;
+    statsPromise ||= fetch("data/season-stats.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null)
+      .then((j) => (statsCache = j));
+    let on = true;
+    statsPromise.then((j) => { if (on) setStats(j); });
+    return () => { on = false; };
+  }, []);
+  return stats;
+}
+
+export const fmtStatDate = (iso) =>
+  new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+
 export function useLiveData() {
   const [live, setLive] = useState({ status: "loading", storms: [], outlookText: null, seasonLog: null, fetchedAt: null });
 

@@ -2,14 +2,17 @@ import React, { useState, useMemo } from "react";
 import { ComposedChart, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList, ReferenceLine } from "recharts";
 import { T, CAT, catOf, SEASONS, SEASON_2026, STORMS, FORECASTS, REVISIONS_2026, SE_STATES, SNAPSHOT_DATE } from "../data.js";
 import { mono, sans, fmtB, Panel, Stat, CatBadge, ChartTip, axisProps } from "../components.jsx";
+import { useSeasonStats } from "../useLive.js";
 
 /* ============== TAB 1 — SEASON TRENDS ============== */
 export default function TrendsTab() {
+  const stats = useSeasonStats();
   const landfalls = STORMS.filter((s) => s.landfall);
   const activityData = useMemo(() => [
     ...SEASONS.map((s) => ({ year: String(s.year), "Named storms": s.ns, Hurricanes: s.h, Major: s.mh, ace: s.ace })),
+    ...(stats ? [{ year: "2026", "Named storms": stats.totals.ns, Hurricanes: stats.totals.h, Major: stats.totals.mh, ace: stats.totals.ace }] : []),
     { year: "2026F", "Named storms": SEASON_2026.csuJune.ns, Hurricanes: SEASON_2026.csuJune.h, Major: SEASON_2026.csuJune.mh, forecast: true },
-  ], []);
+  ], [stats]);
 
   const landfallByCat = useMemo(() => SEASONS.map((s) => {
     const yr = landfalls.filter((st) => st.year === s.year);
@@ -73,7 +76,9 @@ export default function TrendsTab() {
               </Bar>
             </ComposedChart>
           </ResponsiveContainer>
-          <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 6 }}>2026F = CSU June forecast (11 / 5 / 2), shown faded. Avg season: 14.4 / 7.2 / 3.2.</div>
+          <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 6 }}>
+            {stats ? `2026 = season to date, auto-tracked from NHC best track (as of ${new Date(stats.fetchedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}). ` : ""}2026F = CSU June forecast (11 / 5 / 2), shown faded. Avg season: 14.4 / 7.2 / 3.2.
+          </div>
         </Panel>
 
         <Panel kicker="THE NUMBER THAT DRIVES DEMAND" title="US landfall events by intensity at landfall">
@@ -127,7 +132,14 @@ export default function TrendsTab() {
       </div>
 
       <Panel kicker="SEASON NOTES" title="One-line read on each season">
-        {SEASONS.map((s) => (
+        {[
+          ...SEASONS,
+          ...(stats ? [{
+            year: "2026 YTD",
+            ns: stats.totals.ns, h: stats.totals.h, mh: stats.totals.mh, ace: Math.round(stats.totals.ace),
+            note: `Season in progress — totals auto-tracked from NHC best track (ATCF), refreshed with each site update. ${stats.storms.some((st) => st.active) ? "A system is active in the basin right now — see the Live Outlook tab." : "No active systems at the last refresh."}`,
+          }] : []),
+        ].map((s) => (
           <div key={s.year} style={{ display: "flex", gap: 14, padding: "7px 0", borderBottom: `1px solid ${T.line}`, alignItems: "baseline" }}>
             <span style={{ fontFamily: mono, fontSize: 12, color: T.amber, minWidth: 42 }}>{s.year}</span>
             <span style={{ fontFamily: mono, fontSize: 11, color: T.muted, minWidth: 110 }}>{s.ns} NS / {s.h} H / {s.mh} MH · ACE {s.ace}</span>

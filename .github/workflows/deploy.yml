@@ -29,6 +29,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/fetch-live.mjs # static NHC feed copies (no serverless proxy on Pages)
+      - run: node scripts/build-season-stats.mjs # season-to-date aggregates from NHC best track
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

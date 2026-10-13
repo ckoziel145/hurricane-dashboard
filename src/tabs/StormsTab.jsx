@@ -2,15 +2,52 @@ import React, { useState, useMemo } from "react";
 import { ComposedChart, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList, ReferenceLine } from "recharts";
 import { T, CAT, catOf, SEASONS, SEASON_2026, STORMS, FORECASTS, REVISIONS_2026, SE_STATES, SNAPSHOT_DATE } from "../data.js";
 import { mono, sans, fmtB, Panel, Stat, CatBadge, ChartTip, axisProps } from "../components.jsx";
+import { useSeasonStats, ktToMph, fmtStatDate } from "../useLive.js";
+
+const statClassStyle = (s) =>
+  s.peakClass === "TD" ? { label: "TD", color: "#8AA3B5" } : CAT[s.peakClass] || CAT.TS;
+
+/* Live 2026 storm list from NHC best track — every Atlantic system to date,
+   independent of the curated US-landfall log below. */
+function AutoSeasonPanel({ stats }) {
+  const cols = "90px 1fr 150px 110px 70px 90px";
+  return (
+    <Panel
+      kicker={`2026 SEASON TO DATE · AUTO-TRACKED FROM NHC BEST TRACK · ${stats.totals.ns} NS / ${stats.totals.h} H / ${stats.totals.mh} MH · ACE ${stats.totals.ace}`}
+      title="All 2026 Atlantic systems · updates automatically"
+    >
+      <div style={{ display: "grid", gridTemplateColumns: cols, gap: 10, padding: "6px 8px", fontFamily: mono, fontSize: 9.5, letterSpacing: "0.1em", color: T.faint }}>
+        <span>PEAK</span><span>STORM</span><span>ACTIVE</span><span>PEAK WINDS</span><span style={{ textAlign: "right" }}>ACE</span><span style={{ textAlign: "right" }}>STATUS</span>
+      </div>
+      {stats.storms.map((s) => {
+        const c = statClassStyle(s);
+        return (
+          <div key={s.id} style={{ display: "grid", gridTemplateColumns: cols, gap: 10, padding: "9px 8px", borderTop: `1px solid ${T.line}`, alignItems: "center" }}>
+            <span style={{ fontFamily: mono, fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", color: "#0A1118", background: c.color, padding: "2px 6px", borderRadius: 3, whiteSpace: "nowrap", justifySelf: "start" }}>{c.label}</span>
+            <span style={{ fontFamily: sans, fontWeight: 600, fontSize: 13.5, color: s.named ? T.text : T.muted }}>{s.name}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: T.muted }}>{fmtStatDate(s.start)} – {fmtStatDate(s.end)}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: T.muted }}>{ktToMph(s.peakWindKt)} mph</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: T.muted, textAlign: "right" }}>{s.ace.toFixed(1)}</span>
+            <span style={{ fontFamily: mono, fontSize: 10, textAlign: "right", color: s.active ? T.green : T.faint }}>{s.active ? "● ACTIVE" : "ENDED"}</span>
+          </div>
+        );
+      })}
+      <div style={{ fontFamily: mono, fontSize: 10, color: T.faint, marginTop: 12, lineHeight: 1.6 }}>
+        FROM NHC ATCF BEST TRACK, REFRESHED WITH EACH SITE UPDATE (≤6H OLD) · LAST FETCH {new Date(stats.fetchedAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }).toUpperCase()} · US LANDFALL, DAMAGE AND FATALITY DETAIL IS ADDED TO THE CURATED LOG BELOW AS OFFICIAL ESTIMATES ARRIVE
+      </div>
+    </Panel>
+  );
+}
 
 /* ============== TAB 2 — LANDFALL LOG (drill-down) ============== */
 export default function StormsTab() {
+  const stats = useSeasonStats();
   const [year, setYear] = useState("All");
   const [state, setState] = useState("All");
   const [minCat, setMinCat] = useState("All");
   const [open, setOpen] = useState(null);
 
-  const years = ["All", ...SEASONS.map((s) => String(s.year))];
+  const years = ["All", ...SEASONS.map((s) => String(s.year)), ...(STORMS.some((s) => s.year === 2026) ? ["2026"] : [])];
   const states = ["All", "FL", "LA", "TX", "NC", "SC", "GA", "AL", "MS", "TN", "VA", "PR"];
 
   const filtered = STORMS.filter((s) =>
@@ -26,6 +63,8 @@ export default function StormsTab() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {stats && <AutoSeasonPanel stats={stats} />}
+
       <Panel kicker="FILTERS" title={null}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center" }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
