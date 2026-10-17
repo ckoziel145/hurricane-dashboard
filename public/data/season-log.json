@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-10-16T20:23:36.635Z",
+  "updated": "2026-10-17T10:13:21.061Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
