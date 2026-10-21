@@ -1,12 +1,12 @@
 {
   "season": 2026,
-  "fetchedAt": "2026-10-21T11:15:16.134Z",
+  "fetchedAt": "2026-10-21T21:07:27.212Z",
   "source": "NHC ATCF best track (ftp.nhc.noaa.gov/atcf/btk)",
   "totals": {
-    "ns": 9,
+    "ns": 10,
     "h": 1,
     "mh": 1,
-    "ace": 17.9
+    "ace": 18.2
   },
   "storms": [
     {
@@ -107,6 +107,17 @@
       "peakClass": "3",
       "ace": 7.2,
       "active": false
+    },
+    {
+      "id": "al102026",
+      "name": "Josephine",
+      "start": "2026-10-21",
+      "end": "2026-10-21",
+      "named": true,
+      "peakWindKt": 55,
+      "peakClass": "TS",
+      "ace": 0.3,
+      "active": true
     }
   ]
 }
