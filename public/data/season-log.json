@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated": "2026-10-21T21:07:26.256Z",
+  "updated": "2026-10-22T11:14:17.522Z",
   "note": "Appended automatically by .github/workflows/refresh-season.yml from NHC CurrentStorms.json. Do not edit by hand unless correcting a record.",
   "storms": [
     {
@@ -79,7 +79,7 @@
       "id": "al102026",
       "name": "Josephine",
       "firstSeen": "2026-10-21",
-      "lastSeen": "2026-10-21",
+      "lastSeen": "2026-10-22",
       "peakClassification": "STS",
       "peakIntensityKt": 55
     }
