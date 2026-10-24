@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "fetchedAt": "2026-10-23T20:53:00.099Z",
+  "fetchedAt": "2026-10-24T10:22:13.798Z",
   "source": "NHC ATCF best track (ftp.nhc.noaa.gov/atcf/btk)",
   "totals": {
     "ns": 10,
@@ -117,7 +117,7 @@
       "peakWindKt": 55,
       "peakClass": "TS",
       "ace": 1.5,
-      "active": true
+      "active": false
     }
   ]
 }
